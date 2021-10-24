@@ -3,13 +3,18 @@ import * as cheerio from 'cheerio';
 
 interface Anime {
   name: string
-  url: string
+  id: string
 }
 
 interface AnimeEp {
-  name: string
+  anime: Anime
+  title: string
+  ep: number
+}
+
+interface AnimeVideo {
+  ep: AnimeEp
   url: string
-  stream?: string
 }
 
 class Scraping {
@@ -37,11 +42,11 @@ class Scraping {
       const name = $(element).attr('title');
       const url = $(element).attr('href');
 
-      if (!name || !url) return;
+      if (!name || !url) throw new Error('Anime not found');
 
       animes.push({
         name,
-        url,
+        id: url.split('/')[2],
       });
     });
 
@@ -49,8 +54,8 @@ class Scraping {
     return animes;
   }
 
-  async getEps(path: string): Promise<{title: string, eps: AnimeEp[]}> {
-    const $ = await this.getHtml(path);
+  async getEps(anime: Anime): Promise<AnimeEp[]> {
+    const $ = await this.getHtml(`/category/${anime.id}`);
 
     const title = $('#episode_page li a').text().replace('0-', '1-');
 
@@ -58,12 +63,13 @@ class Scraping {
     const eps: AnimeEp[] = [];
     for (let i = 0; i < totalEps; i++) {
       eps.push({
-        name: `EP ${i+1}`,
-        url: `/${path.split('/')[2]}-episode-${i+1}`,
+        anime,
+        title: `EP ${i+1}`,
+        ep: i+1,
       });
     }
 
-    return {title, eps};
+    return eps;
   }
 }
 
