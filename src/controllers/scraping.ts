@@ -71,6 +71,24 @@ class Scraping {
 
     return eps;
   }
+
+  async getEmbeddedVideo(ep: AnimeEp): Promise<AnimeVideo[]> {
+    const $ = await this.getHtml(`/${ep.anime.id}-episode-${ep.ep}`);
+
+    const embeddedVideoUrls: AnimeVideo[] = [];
+    $('a[data-video]').each((_, element) => {
+      const url = $(element).attr('data-video');
+
+      if (!url) throw new Error('Video not found');
+
+      embeddedVideoUrls.push({
+        ep,
+        url: 'https:' + url,
+      });
+    });
+
+    return embeddedVideoUrls;
+  }
 }
 
 export default Scraping;
