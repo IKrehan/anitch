@@ -1,18 +1,18 @@
 import axios, {AxiosInstance} from 'axios';
 import * as cheerio from 'cheerio';
 
-interface Anime {
+export interface Anime {
   name: string
   id: string
 }
 
-interface AnimeEp {
+export interface AnimeEp {
   anime: Anime
   title: string
   ep: number
 }
 
-interface AnimeVideo {
+export interface AnimeVideo {
   ep: AnimeEp
   url: string
 }
