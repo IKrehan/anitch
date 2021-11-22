@@ -10,7 +10,7 @@ class Cli {
     ██╔══██║██║╚██╗██║██║   ██║   ██║     ██╔══██║
     ██║  ██║██║ ╚████║██║   ██║   ╚██████╗██║  ██║
     ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝
-
+                                         by Krehan
     `);
   }
 
@@ -32,7 +32,7 @@ class Cli {
         });
   }
 
-  async chooseAnime(animeOptions: Anime[]) {
+  async chooseAnime(animeOptions: Anime[]): Promise<Anime> {
     return inquirer.prompt({
       type: 'list',
       name: 'anime',
@@ -49,7 +49,7 @@ class Cli {
         });
   }
 
-  async chooseEp(animeEps: AnimeEp[]) {
+  async chooseEp(animeEps: AnimeEp[]): Promise<AnimeEp> {
     return inquirer.prompt({
       type: 'list',
       name: 'anime',

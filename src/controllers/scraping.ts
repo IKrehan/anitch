@@ -83,7 +83,7 @@ class Scraping {
 
       embeddedVideoUrls.push({
         ep,
-        url: 'https:' + url,
+        url: url.startsWith('https://') ? url : 'https:' + url,
       });
     });
 
